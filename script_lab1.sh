@@ -5,25 +5,31 @@ loop=true
 while [ $loop = true ]
 do
 	echo -n "Введите имя файла: "
-	read fileName;
+	read fileName
 
-	if [ -f $fileName ]
+	if [ -z $fileName ]
 	then
-		echo 'Файл уже существует, перезаписать?(y/n)'
-		read choice
-
-		if [ $choice = 'y' ]
-		then
-			uname -a > $fileName
-			loop=false
-
-		else
-			loop=true
-		fi
-	
+		continue
 	else
-	uname -a > $fileName
-	loop=false
+
+		if [ -f $fileName ]
+		then
+			echo 'Файл уже существует, перезаписать?(y/n)'
+			read choice
+
+			if [ $choice = 'y' ]
+			then
+				uname -a > $fileName
+				loop=false
+
+			else
+				loop=true
+			fi
+	
+		else
+		uname -a > $fileName
+		loop=false
+		fi
 	fi
 done
 whoami >> $fileName
